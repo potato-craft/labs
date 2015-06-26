@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>  </title>
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script>
+$(document).ready(function(){
+  $("a").click(function(event){
+    event.preventDefault();
+    var url=$(this).attr("href");
+    //do something
+    $(this).css('position', 'relative');
+    $(this).css('bottom', 'auto');
+    
+    $(this).animate({
+      top: '300',
+      opacity: '0'
+    },
+    2500,
+    function(){
+     $("body").fadeOut('700', function(){
+      window.location.href=url;
+      }); 
+    });
+  });
+});
+</script>
+</head>
+<body>
+<a href="http://google.com">tessstter</a>
+<a href="http://spikenlilli.com">hello</a>
+<a href="http://goodbye.com">goodbye</a>
+<a href="http://google.com">tessstter</a>
+<a href="http://google.com">tessstter</a>
+<a href="http://google.com">tessstter</a>
+<a href="http://google.com">tessstter</a>
+<p>what?</p>
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title> Desktop | Zac DavidM </title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"  content="width=device-width,initial-scale=1">
+
+<link rel="shortcut icon" href="http://redjacketarts.com/assets/images/redjacket-arts-icon.png">
+<link rel="apple-touch-icon" href="http://redjacketarts.com/assets/images/redjacket-arts-icon.png">
+
+<style>
+@import url(http://fonts.googleapis.com/css?family=Oswald);
+@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro);
+@import url(http:////netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css);
+
+html { 
+  background: url(images/wallpaper-2177123.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+body,
+html{
+  margin:0;
+  padding:0;
+}
+body{
+  font-family: 'Source Sans Pro', sans-serif;
+  text-shadow: 0px 0px 3px #000;
+  font-size:1.2em;
+}
+
+h1,h2,h3,h4,h5,h6{
+  font-family: 'Oswald', sans-serif;
+  line-height:1.1;
+  margin:.2em;
+  font-weight:normal;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+ul.menu.inline{
+  padding:0;
+  margin:0;
+  list-style:none;
+}
+
+ul.menu.inline li{
+  display:inline;
+}
+
+#panel{
+  position:fixed;
+  top:0;
+  background:#404545;
+  padding:3px 0;
+  width:100%;
+  color:white;
+}
+#app-control,
+#app-title,
+#app-menu,
+#dock{
+  display:inline-block;
+}
+
+#dock{
+  float:right;
+}
+
+#app-control{
+  display:none;
+}
+#panel:hover #app-control{
+  display:inline-block;
+}
+
+#panel:hover #app-title{
+  display:none;
+}
+
+#panel i,
+#panel .menu>li,
+#panel span,
+#panel #app-title{
+  padding:0 .25em;
+}
+
+#page{
+  width:94%;
+  margin:3%;
+}
+
+.item{
+  background-color:rgba(0,0,0,.01);
+  -webkit-transition:background-color .3s ease-in;  
+  -moz-transition:background-color .3s ease-in;  
+  -o-transition:background-color .3s ease-in;  
+  transition:background-color .3s ease-in;  
+  color:white;
+  padding:10px;
+  margin:1em 0;
+}
+
+.item:hover{
+  background-color:rgba(0,0,0,.2);
+}
+
+.group:after{
+    content: " ";
+    display: table;
+    clear: both;
+}
+
+.group:before{
+  content: " ";
+  display: table;
+}
+
+.fluid-grid{
+  -moz-box-sizing:border-box;
+  box-sizing:border-box;
+  padding:0 10px;
+  float:left;
+}
+
+.desktop-grid-100{
+  width:100%;
+}
+  
+.desktop-grid-33{
+  width:33.3333%;
+}
+
+  #header,
+  #digital-literacy{
+    border-right:2px solid #f0ca9e;
+  }
+
+@media (max-width: 950px) { /* Tablet */
+  .tablet-grid-100{
+    width:100%;
+  }
+  .tablet-grid-50{
+    width:50%;
+  }
+  #header{
+    border-bottom:2px solid #f0ca9e;
+    border-right:0;
+  }
+  
+  #digital-literacy{
+    border-right:2px solid #f0ca9e;
+  }
+  #new-media{
+    border-right:0;
+  }
+  
+}
+
+@media (max-width: 480px) { /* Mobile */
+  .mobile-grid-100{
+    width:100%;
+  }
+  
+  #header,
+  #digital-literacy,
+  #new-media{
+    border-bottom:2px solid #f0ca9e;
+    border-right:0;
+  }
+  
+}
+</style>
+</head>
+<body onload="startTime()">
+<div id="panel">
+  <div id="app-control">
+    <i class="icon-remove"></i>
+    <i class="icon-minus"></i>
+    <i class="icon-plus"></i>
+    <div id="app-menu">
+      <ul class="menu inline group">
+        <li>File</li>
+        <li>Edit</li>
+        <li>View</li>
+      </ul>
+    </div>
+  </div>
+  <a id="app-title" href="javascript:void(0)">Redjacket Arts Desktop</a>
+  <div id="dock">
+    <a href="http://pandora.com"><i class="icon-music"></i></a>
+    <a href="http://dropbox.com"><i class="icon-dropbox"></i></a>
+    <a href="http://google.com/calendar"><i class="icon-calendar"></i></a>
+    <a href="http://gmail.com"><i class="icon-envelope"></i></a>
+    <i class="icon-volume-up"></i>
+    <span id="clock"></span>
+    <i class="icon-cog"></i>
+  </div>
+</div>
+<div id="page" class="group">
+
+</div>
+
+
+<script>
+function startTime(){
+  var today=new Date();
+  var y=today.getFullYear();
+  var mon=today.getMonth();
+  var d=today.getDate(); 
+  var h=today.getHours();
+  var m=today.getMinutes();
+  var s=today.getSeconds();
+  var am=timeAM(h);
+  y=shortenYear(y);
+  h=standardTime(h);
+  m=checkTime(m);
+  s=checkTime(s);
+  document.getElementById('clock').innerHTML=mon+"/"+d+"/"+y+" "+h+":"+m+":"+s+" "+am;
+  t=setTimeout(function(){startTime()},500);}
+function checkTime(i){if (i<10){i="0" + i;}return i;}
+function standardTime(i){if (i>12){i=i-12;}return i;}
+function timeAM(i){if (i<12){return "am";}else{return "pm";}}
+function shortenYear(i){return i-2000;}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>  </title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script>
+  
+$(function() {
+  //autoplay functionality
+  $('audio').on('ended',function(){
+    iter++;
+    if(iter<len){
+      playAudio(iter);
+    }
+    else{
+      return false;
+    }
+  });
+  
+});
+  var queue;
+  var len;
+  var iter=0;
+  
+  function startAudio(){
+    queue=$('[name=array]').val().split(",");
+    len=queue.length;
+    playAudio(0);
+  };
+  
+  function playAudio(idx){
+    $("#"+queue[idx])[0].play();
+  }
+</script>
+</head>
+<body>
+  <p>
+  This simple example shows that a queue of ids can be loaded into an array and audio tracks can be set to play from this queue, the next one starting after the current track has ended. 
+  </p>
+  <p>
+  Enter the ids of the tracks you want to play separated by commas. Valid ids are au[1-7]. A default set has been provided.
+  </p>
+  <input name="array" value="au5,au2,au3,au7,au1,au3,au5,au3" type="text">
+  <button onclick="startAudio()">Play Tracks</button><br>
+  <audio id="au1" src="http://www.w3schools.com/html/horse.ogg" controls></audio><br>
+  <audio id="au2" src="http://www.w3schools.com/html/horse.ogg" controls></audio><br>
+  <audio id="au3" src="http://www.w3schools.com/html/horse.ogg" controls></audio><br>
+  <audio id="au4" src="http://www.w3schools.com/html/horse.ogg" controls></audio><br>
+  <audio id="au5" src="http://www.w3schools.com/html/horse.ogg" controls></audio><br>
+  <audio id="au6" src="http://www.w3schools.com/html/horse.ogg" controls></audio><br>
+  <audio id="au7" src="http://www.w3schools.com/html/horse.ogg" controls></audio><br>
+
+</body>
+</html>

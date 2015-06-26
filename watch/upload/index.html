@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Upload | Watch</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<style>
+.CSSButton {
+border: 1px solid #79A854;
+background: -webkit-gradient( linear, left top, left bottom, color-stop(0.1, #ABDC28), color-stop(0.9, #94C60F) );
+background: -moz-linear-gradient( center top, #ABDC28 10%, #94C60F 90% );
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ABDC28', endColorstr='#94C60F');
+background-color: #ABDC28;
+-moz-box-shadow: inset 0px 1px 2px 0px #FFFFFF;
+-webkit-box-shadow: inset 0px 1px  2px 0px #FFFFFF;
+box-shadow: inset 0px 1px  2px 0px #FFFFFF;
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+border-radius: 5px;
+text-shadow: 1px 1px 2px #000000;
+font-weight: bold;
+margin: 5px 5px;
+padding: 6px 6px;
+color: #FFFFFF;
+letter-spacing: 1px;
+font-family: 'Arial', sans-serif;
+font-size: 16px;
+width: 150px;
+text-transform: capitalize;
+text-align: center;
+text-decoration: none;
+cursor: pointer;
+display: inline-block;
+}
+.CSSButton:hover {
+background: -webkit-gradient( linear, left top, left bottom, color-stop(0.1, #94C60F), color-stop(0.9, #ABDC28) );
+background: -moz-linear-gradient( center top, #94C60F 10%, #ABDC28 90% );
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#94C60F', endColorstr='#ABDC28');
+background-color: #94C60F;
+}
+.CSSButton:active {
+position: relative;
+top: 1px;
+left: 0px;
+}
+</style>
+<script>
+var run=false;
+function upload(){
+  if(run){return;}
+  url=document.getElementById('url').value;
+  if (url.length==0)
+    { 
+    document.getElementById("result").innerHTML="You must link to a url";
+    return;
+    }
+  if(url.indexOf("http")<0){
+    document.getElementById("result").innerHTML="Make sure you start your url with http://";
+    return;
+  }
+  if (window.XMLHttpRequest)
+    {// code for IE7+, Firefox, Chrome, Opera, Safari
+    xmlhttp=new XMLHttpRequest();
+    }
+  else
+    {// code for IE6, IE5
+    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+  xmlhttp.onreadystatechange=function()
+    {
+    if (xmlhttp.readyState==4 && xmlhttp.status==200)
+      {
+      var txt='YOUR LINK: <a href="/admin?v='+xmlhttp.responseText+'">watch.redjacketarts.com/admin?v='+xmlhttp.responseText+'</a>';
+      txt+='<br><br>FRIENDS LINK: <a href="/video?v='+xmlhttp.responseText+'">watch.redjacketarts.com/video?v='+xmlhttp.responseText+'</a>';
+      document.getElementById("result").innerHTML=txt;
+      run=true;
+      }
+    }
+  xmlhttp.open("GET","upload.php?q="+url,true);
+  xmlhttp.send();
+}
+</script>
+</head>
+<body>
+<h1>Upload</h1>
+<h2>Link to Video:</h2>
+<p class="description">Copy and paste the link to your video file. Must be mp4. Make sure link starts with http://</p>
+
+<input id="url"></input>
+<span class="CSSButton" onclick="upload()">Upload</span>
+
+<h2>Watch with Friends Link:</h2>
+<p id="result"></p>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+<meta name="viewport" content="width=device-width" />
+<link rel="stylesheet" type="text/css" href="draw.css">
+
+
+<script type="text/javascript" src="draw.js"></script>
+<style type="text/css"></style></head>
+<body onLoad="disableTouch()">
+
+  
+    <canvas id="myCanvas" width="800" height="600">
+      Your browser does not support the HTML5 canvas tag.
+    </canvas>
+
+
+
+<input type="color" id="lineColor" value="#272f3a">
+<a onclick="save()" href="#"><span class="convert-to-image">Convert to Image</span></a> 
+<img id="canvasImg" src="" class="converted-image" ></img>
+
+
+
+
+
+  <div class="controls">
+
+
+    <div class="arrow" id="arrow-up" onmousedown="upStart()" onmouseup="upEnd()" onclick="void(0)" ontouchstart="upStart()" ontouchend="upEnd()" >^</div>
+
+    <div class="arrow" id="arrow-down" onmousedown="downStart()" onmouseup="downEnd()" onclick="void(0)" ontouchstart="downStart()" ontouchend="downEnd()" >V</div>
+
+    <div class="arrow" id="clear" onmousedown="canvasclear()" onmouseup="unclear()" onclick="void(0)" ontouchstart="canvasclear()" ontouchend="unclear()">X</div>
+
+    <div class="arrow" id="arrow-left" onmousedown="leftStart()" onmouseup="leftEnd()" onclick="void(0)" ontouchstart="leftStart()" ontouchend="leftEnd()">&lt;</div>
+
+    <div class="arrow" id="arrow-right" onmousedown="rightStart()" onmouseup="rightEnd()" onclick="void(0)" ontouchstart="rightStart()" ontouchend="rightEnd()">&gt;</div>
+
+
+  </div>  
+
+
+<script>
+draw();
+</script>
+</body>
+</html>

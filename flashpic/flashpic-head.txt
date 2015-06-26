@@ -1,0 +1,13 @@
+  <script type="text/javascript">
+  //Are you setting up flashPic? If so, I think this is what you are looking for
+  
+  var numOfPics=21; //number of pictures you have
+  var timeDelay=75; //time in miliseconds (1000ms = 1s)
+  var displayType="inline-block"; /display of divs
+ </script>
+ <style type="text/css">
+  .flashPic{
+    display:none;
+  }
+ </style>
+ <script src="flashpic.js"></script>

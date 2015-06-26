@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script>
+$(document).ready(function(){
+	$('body').css('fontSize', fontSize()+"em");
+	$(window).resize(function() {
+		$('body').css('fontSize', fontSize()+"em");
+		 center('#main-wrapper');
+	});
+	function fontSize(){
+		var width=$(window).width();
+		width=width/100;
+		return width;
+	}
+	
+	$("a").click(function(event){
+    event.preventDefault();
+    var href=$(this).attr("href");
+    if(href.charAt(0)!='#'){
+		$(this).css('position', 'relative');
+		
+		$(this).animate({
+		  left: '300',
+		  opacity: '0'
+		},
+		700,
+		'linear',
+		function(){
+		 $("body").fadeOut('700',function(){
+			 url(href);
+			 }); 
+		});
+	}
+	function url(href){
+	window.location.href=href;
+	}
+	
+  });
+  
+  function center(id){
+	  var objectWidth=$(id).outerWidth();
+	  var windowWidth=$(window).outerWidth();
+	  var leftMargin=(windowWidth-objectWidth)/2;
+	  $(id).css('marginLeft', leftMargin+'px');
+  }
+  
+  center('#main-wrapper');
+  
+  $("body").hide();
+  
+  $("body").fadeIn('700');
+  
+  
+  
+});
+</script>
+<style>
+a{
+	color:#d8d8d8;
+	text-decoration:none;
+}
+#main-wrapper{
+	padding:0px;
+	max-width:85%;
+}
+body{
+	margin:0px;
+	word-break:break-all;
+}
+</style>
+</head>
+<body>
+<div id="main-wrapper">
+	<a href="http://zac.forgoodstudios.org">ZacDavidM</a><span>.</span>
+	<a href="about">About</a><span>.</span>
+	<a href="work">Work</a><span>.</span>
+	<a href="labs">Labs</a><span>.</span>
+	<a href="contact">Contact</a><span>.</span>
+	</div>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Inline Menu</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<style>
+  /*
+  * Core Styling
+  */
+  
+  .groups:before,
+  .groups:after {
+    content: " "; 
+    display: table;
+  }
+  .groups:after {
+      clear: both;
+  }
+  
+  ul.menu{
+    padding:0;
+  }
+  ul.menu,
+  ul.menu ul{
+    list-style:none;
+  }
+  ul.menu.inline > li{
+    display:block;
+    float:left;
+    position:relative;
+  }
+  
+  ul.menu.inline > li > ul{
+    list-style:none;
+    display:none;
+    position:absolute;
+    top:100%;
+    left:0;
+  }
+  
+  ul.menu.inline > li:hover ul{
+    display:inline-block;
+  }
+  
+  /*
+  * Aesthetic Styling
+  */
+  body{
+    font-family:Arial;
+  }
+  a{
+    color:inherit;
+  }
+  ul.menu.inline > li{
+    width:16.66%;
+  }
+  ul.menu.inline a{
+    display:block;
+    padding:.75em;
+  }
+  ul.menu.inline ul{
+    padding-left:.75em;
+  }
+  ul.menu.inline > li > ul{
+    padding-left:.25em;
+    min-width:200px;
+  }
+  
+  ul.menu{
+    background-color:#989898;
+    color:white;
+  }
+  
+  ul.menu ul{
+    background-color:#a9a9a9;
+  }
+  
+</style>
+</head>
+<body>
+  
+  <ul class="menu inline groups">
+    <li><a href="">Link 1</a>
+      <ul>
+        <li><a href="">Link 1 Sub 1</a></li>
+        <li><a href="">Link 1 Sub 2</a></li>
+        <li><a href="">Link 1 Sub 3</a></li>
+        <li><a href="">Link 1 Sub 4</a></li>
+        <li><a href="">Link 1 Sub 5</a></li>
+        <li><a href="">Link 1 Sub 6</a></li>
+      </ul>
+    </li>
+    <li><a href="">Link 2</a>
+      <ul>
+        <li><a href="">Link 2 Sub 1</a>
+          <ul>
+            <li><a href="">Sub 1 Sub 1</a></li>
+            <li><a href="">Sub 1 Sub 2</a></li>
+            <li><a href="">Sub 1 Sub 3</a></li>
+            <li><a href="">Sub 1 Sub 4</a></li>
+            <li><a href="">Sub 1 Sub 5</a></li>
+            <li><a href="">Sub 1 Sub 6</a></li>
+          </ul>
+        </li>
+        <li><a href="">Link 2 Sub 2</a></li>
+        <li><a href="">Link 2 Sub 3</a></li>
+        <li><a href="">Link 2 Sub 4</a></li>
+        <li><a href="">Link 2 Sub 5</a></li>
+        <li><a href="">Link 2 Sub 6</a></li>
+      </ul>
+    </li>
+    <li><a href="">Link 3</a>
+      <ul>
+        <li><a href="">Link 3 Sub 1</a></li>
+        <li><a href="">Link 3 Sub 2</a></li>
+        <li><a href="">Link 3 Sub 3</a></li>
+        <li><a href="">Link 3 Sub 4</a></li>
+        <li><a href="">Link 3 Sub 5</a></li>
+        <li><a href="">Link 3 Sub 6</a></li>
+      </ul>
+    </li>
+    <li><a href="">Link 4</a>
+      <ul>
+        <li><a href="">Link 4 Sub 1</a></li>
+        <li><a href="">Link 4 Sub 2</a></li>
+        <li><a href="">Link 4 Sub 3</a></li>
+        <li><a href="">Link 4 Sub 4</a></li>
+        <li><a href="">Link 4 Sub 5</a></li>
+        <li><a href="">Link 4 Sub 6</a></li>
+      </ul>
+    </li>
+    <li><a href="">Link 5</a>
+      <ul>
+        <li><a href="">Link 5 Sub 1</a></li>
+        <li><a href="">Link 5 Sub 2</a></li>
+        <li><a href="">Link 5 Sub 3</a></li>
+        <li><a href="">Link 5 Sub 4</a></li>
+        <li><a href="">Link 5 Sub 5</a></li>
+        <li><a href="">Link 5 Sub 6</a></li>
+      </ul>
+    </li>
+    <li><a href="">Link 6</a>
+      <ul>
+        <li><a href="">Link 6 Sub 1</a></li>
+        <li><a href="">Link 6 Sub 2</a></li>
+        <li><a href="">Link 6 Sub 3</a></li>
+        <li><a href="">Link 6 Sub 4</a></li>
+        <li><a href="">Link 6 Sub 5</a></li>
+        <li><a href="">Link 6 Sub 6</a></li>
+      </ul>
+    </li>
+  </ul>
+  
+  
+
+</body>
+</html>

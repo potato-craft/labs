@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Video.js | HTML5 Video Player</title>
+
+  <!-- Chang URLs to wherever Video.js files will be hosted -->
+  <link href="/video/video-js.css" rel="stylesheet" type="text/css">
+  <!-- video.js must be in the <head> for older IEs to work. -->
+  <script src="/video/video.dev.js"></script>
+  <script src="/video/jquery.1.9.1.min.js"></script>
+  
+
+  <!-- Unless using the CDN hosted version, update the URL to the Flash SWF -->
+  <style>
+  body{
+    margin:0;
+  }
+  video{
+    position:absolute;
+    top:0;
+    left:0;
+    height:100%;
+    width:100%;
+  }
+  #vjs_video_4{
+    overflow:hidden;
+  }
+  .vjs-fullscreen-control{
+    display:none;
+  }
+  .vjs-volume-control{
+    margin-right:20px !important;
+  }
+  </style>
+  <script>
+   $(document).ready(function(){
+     $(window).resize(function() {
+       $("#vjs_video_4").css({
+         'width': window.innerWidth ,
+         'height': window.innerHeight
+         });
+     });
+   });
+  </script>
+  
+
+
+</head>
+<body>
+
+  <video id="rjvideo" class="video-js vjs-default-skin" controls preload 
+      data-setup="{}">
+    <source src="https://dl.dropboxusercontent.com/s/8i4f6omkhaq2bli/The%20Emperor%27s%20New%20Groove.mp4?token_hash=AAFIFxv9h4-2CkokjgXicbLcmLa1BwBDi5TVm1PZyFgRUQ&dl=1" type='video/mp4' />
+  </video>
+<script>
+var video=document.getElementsByTagName("video")[0];
+        video.width=window.innerWidth;
+        video.height=window.innerHeight;
+
+var rjvid=video;
+var rjvo={
+  stat:0,  //status 0:paused, 1:playing
+  time:0,   //time (to one decimal
+  id:'001'
+}
+$("video").on("pause", function (e) {
+  status(e, 0);
+});
+$("video").on("play", function (e) {
+  status(e, 1);
+});
+
+function status(e, s){
+  var t=trunc(e.target.currentTime);
+  rjvo.stat=s;
+  rjvo.time=t;
+  
+  send(s,t);
+}
+
+function trunc(num){
+  return Math.round( num * 10 ) / 10;
+}
+
+function send(s, t){
+  
+  var xmlhttp;    
+  xmlhttp=new XMLHttpRequest();
+  console.log("send.php?id="+rjvo.id+"&s="+s+"&t="+t);
+  xmlhttp.open("GET","/video/send.php?id="+rjvo.id+"&s="+s+"&t="+t,true);
+  xmlhttp.send();
+}
+  
+</script>
+</body>
+</html>

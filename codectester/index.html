@@ -1,0 +1,180 @@
+<!DOCTYPE html> 
+<html> 
+<head>
+<title>Can I Play It?</title>
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<style>
+  body{
+    margin:0px;
+  }
+.contain{
+  width:640px;
+  margin:auto;
+  margin-top:50px;
+  background:#d8d8d8;
+  border-radius:8px;
+  padding-bottom:6px;
+  box-shadow: 0px 0px 15px #888888;
+  border-style:solid;
+  border-width:1px;
+  border-color:#bcbcbc;
+}
+.contain .content{
+    padding-left:15px;
+}
+header{
+  border-top-left-radius:8px;
+  border-top-right-radius:8px;
+  background-color:#222222;
+  text-align:center;
+  color:#d1d2d4;
+  padding-top:6px;
+  padding-bottom:6px;
+}
+li{
+  display:block;
+  margin-left:10px;
+  min-height:26px;
+  font-size:20px;
+}
+.contain .content li img{
+  height:20px;
+  margin:0px;
+  padding:0px;
+  display:inline-block;
+  vertical-align:top;
+}
+.contain .content li .no{
+  color:red;
+  font-weight:bold;
+}
+.contain .content li .yes{
+  color:#72e500;
+  font-weight:bold;
+}
+#loading{
+  margin:0px;
+  position:absolute;
+  top:0px;
+  left:0px;
+  width:100%;
+  height:100%;
+  background-color:rgba(34,34,34,.9);
+}
+#loading .content{
+  width:360px;
+  border-radius:8px;
+  margin:auto;
+  background:black;
+  text-align:center;
+  color:#d8d8d8;
+  font-size:22px;
+  margin-top:200px;
+}
+#loading .content img{
+  display:block;
+  margin:auto;
+}
+</style>
+<script>
+$(document).ready(function(){
+    $("#loading").delay(2000).fadeOut(200);
+    var x=2000;
+    var del=500;
+    x=x+del;
+    setTimeout ( 
+      function(){
+        supportType('mp4v','video/mp4', 'video'); 
+      }, x);
+    x=x+del;
+    setTimeout ( 
+      function(){
+        supportType('oggv','video/ogg', 'video');
+      }, x);
+    x=x+del;
+    setTimeout ( 
+      function(){
+        supportType('webmv','video/webm', 'video');
+      }, x);
+    x=x+del;  
+    setTimeout ( 
+      function(){
+        supportType('mp3a','audio/mpeg', 'audio');
+      }, x);
+    x=x+del;
+    setTimeout ( 
+      function(){
+        supportType('ogga','audio/ogg', 'audio');
+      }, x);
+    x=x+del;
+    setTimeout ( 
+      function(){
+        supportType('mp4a','audio/mp4', 'audio');
+      }, x);
+});
+</script>
+</head>
+<body> 
+
+<div id="loading">
+<section class="content">
+<span>Checking your browser...</span>
+<img src="loading_black.gif" alt="loading..."/>
+</section>
+</div>
+
+<div class="contain">
+  <header>
+    <h1>Can I Play It?: HTML5 codec support</h1>  
+  </header>
+<section class="content">
+<legend><h2>Video:</h2></legend><ul>
+  
+<li>MP4 videos? <span id="mp4v">
+<img src="loading_d8d8d8.gif" alt="loading"/>
+</span></li>
+
+<li>OGG videos? <span id="oggv">
+<img src="loading_d8d8d8.gif" alt="loading"/>
+</span></li>
+
+<li>WEBM video? <span id="webmv">
+<img src="loading_d8d8d8.gif" alt="loading"/>
+</span></li>
+
+</ul>
+<legend><h2>Audio:</h2></legend>
+<ul>
+<li>MP3 audio? <span id="mp3a">
+<img src="loading_d8d8d8.gif" alt="loading"/>
+</span></li>
+
+
+<li>OGG audio? <span id="ogga">
+<img src="loading_d8d8d8.gif" alt="loading"/>
+</span></li>
+
+<li>MP4 audio? <span id="mp4a">
+<img src="loading_d8d8d8.gif" alt="loading"/>
+</span></li>
+</ul>
+</section>
+</div><!--end of contain-->
+
+<script> 
+function supportType(id, medType, format)
+  { 
+if(format=="video"){myMed=document.createElement('video');}
+else{myMed=document.createElement('audio');}
+  isSupp=myMed.canPlayType(medType);
+  if (isSupp=="")
+    {
+    isSupp="<span class=\"no\">No</span>";
+    }
+  document.getElementById(id).innerHTML="<span class=\"yes\">"+isSupp+"</span>";
+  } 
+</script> 
+</body> 
+</html>
+
+

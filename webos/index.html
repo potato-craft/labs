@@ -1,0 +1,147 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>webOS</title>
+<link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css">
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
+<script>
+$(document).ready(function(){
+
+    $(".action-bar").mousedown(function(e){
+		if($(e.target).is('.close, .minimize, .restore')){
+            e.preventDefault();
+            return;
+        }
+		$(this).closest(".window").draggable();
+		$(".action-bar").mouseup(function(){
+		$(this).closest(".window").draggable("destroy");
+		});
+    });
+    $(".window").resizable();
+    
+    var top=20;
+    var left=20;
+    var zindex=1;
+    $(".window").each(function(){
+      $(this).css("top", top+"px");
+      $(this).css("left", left+"px");
+      $(this).css("z-index", zindex);
+      top=top+40;
+      left=left+40;
+      zindex=zindex+1;
+    });
+    
+	var numWin=$(".window").length;
+	$(".window").mousedown(function(){
+	  var clicked=this;
+	  $(".window").each(function(){
+		if($(this).css("z-index")>$(clicked).css("z-index")){
+		  $(this).css("z-index", $(this).css("z-index")-1)
+		}
+	  });
+	  $(clicked).css("z-index", numWin);
+	});
+
+	$(".close").click(function(){
+	  $(this).closest(".window").hide();
+	});
+
+	$(".minimize").click(function(){
+		alert("minimize!");
+	  $(this).closest(".window").resizable("destroy");
+	  $(this).closest(".window").appendTo("#taskbar");
+	  $(this).closest(".window").css("position", "relative");
+	  $(this).closest(".window").css("width", "200px");
+	  $(this).closest(".window").css("height", "30px");
+	  $(this).closest(".window").css("left", "auto");
+	  $(this).closest(".window").css("top", "auto");
+	  $(this).closest(".window").css("float", "left");
+	});
+
+$(".restore").click(function(){
+  $(this).closest(".window").appendTo("body");
+  $(this).closest(".window").draggable();
+  $(this).closest(".window").resizable();
+  $(this).closest(".window").css("position", "absolute");
+  $(this).closest(".window").css("width", "400px");
+  $(this).closest(".window").css("height", "400px");
+  $(this).closest(".window").css("left", "20px");
+  $(this).closest(".window").css("top", "20px");
+  $(this).closest(".window").css("bottom", "auto");
+  $(this).closest(".window").css("float", "none");
+});
+
+
+});
+</script>
+<style>
+body{
+  margin:0px;
+  padding:0px;
+}
+.window{
+  width:400px;
+  height:400px;
+  border:solid 1px black; 
+  overflow:hidden;
+  background-color:white;
+  position:absolute;
+}
+.window .action-bar{
+  background-color:#232323;
+  padding:5px;
+  text-align:center;
+}
+.window .action-bar span{
+	padding: 0px 6px;
+}
+.window .action-bar .close{
+  background-color:red;
+  float:left;
+}
+.window .action-bar .minimize{
+  float:left;
+  background-color:#d8d8d8;
+}
+.window .action-bar .restore{
+  float:left;
+  background-color:#d8d8d8;
+}
+.window .action-bar .title{
+color:white;
+}
+#taskbar{
+height:30px;
+padding:3px;
+background-color:#ad2777;
+width:100%;
+position:fixed;
+bottom:0px; 
+}
+</style>
+</head>
+<body>
+
+<div class="window">
+<div class="action-bar">
+<span class="close">X</span><span class="minimize">_</span><span class="restore">[]</span><span class="title">Window 1</span>
+</div>
+<div class="content">
+hello
+</div>
+</div>
+
+<div class="window">
+<div class="action-bar">
+<span class="close">X</span><span class="minimize">_</span><span class="restore">[]</span><span class="title">Window 2</span>
+</div>
+<div class="content">
+hello
+</div>
+</div>
+
+<div id="taskbar"></div>
+</body>
+</html>

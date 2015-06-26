@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="MobileOptimized" content="width">
+  <meta name="HandheldFriendly" content="true">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+  <link href="assets/spectrum.css" rel="stylesheet">
+  <style>
+  body,html{
+    margin:0;
+    height:100%;
+    overflow:hidden;
+  }
+  #canvas{
+    width:100%;
+    height:100%;
+  }
+  #control-panel{
+    width:44px;
+    height:100%;
+    background:#444;
+    position:absolute;
+    left:0;
+    top:0;
+    margin:0;
+    padding:0;
+    text-align:center;
+    color:#ededed;
+  }
+  #control-panel .item{
+    display:block;
+    padding:8px 0;
+    border-bottom:1px solid #000;
+    position:relative;
+  }
+  
+  .item .flyout{
+    display:none;
+  }
+
+  .item.active .flyout{
+    display:block;
+    position:absolute;
+    top:0;
+    left:100%;
+    padding:4px;
+    min-height:100%;
+    background-color:#444;
+    box-sizing:border-box;
+  }
+  
+  .minw-med{
+    min-width:120px;
+  }
+  .thumbnail{
+    max-width:120px;
+  }
+  
+  #controls{
+    position:absolute;
+    bottom:0;
+    left:0;
+    right:0;
+    padding:.25em;
+    font-size:4em;
+    color:rgba(0,0,0,.7);
+    text-shadow: 0px 0px 6px #fff;
+  }
+
+  #controls .active{
+    color:rgba(0,0,0,.85);
+  }
+  .controls-left{float:left;margin-left:44px;}
+  .controls-right{float:right;}
+
+  *{
+    -webkit-user-select: none;  /* Chrome all / Safari all */
+    -moz-user-select: none;     /* Firefox all */
+    -ms-user-select: none;      /* IE 10+ */
+
+    /* No support for these yet, use at own risk */
+    -o-user-select: none;
+    user-select: none; 
+  }
+  </style>
+
+</head>
+<body>
+<canvas id="canvas" width="100px" height="100px">
+  Your browser does not support the HTML5 canvas tag.
+</canvas>
+<ul id="control-panel">
+  <li class="item size">
+    <i class="fa fa-circle" title="point size"></i>
+    <aside class="flyout">
+      <input type="range" onChange="set_size(parseInt(this.value));" min="1" max="10" value="10"/>
+    </aside>
+  </li>
+  <li class="item color">
+    <i class="fa fa-eye" title="point color"></i>
+    <aside class="flyout">
+      <input type="color" onChange="set_color(this.value);" />
+    </aside>
+  </li>
+  <li class="item sensitivity">
+    <i class="fa fa-tachometer" title="movement sensitivity"></i>
+    <aside class="flyout">
+      <input type="range" onChange="set_sensitivity(parseInt(this.value));" min="0" max="400" value="325"/>
+    </aside>
+  </li>
+  <li class="item width-sm clear">
+    <i class="fa fa-times" title="clear canvas"></i>
+    <aside class="flyout minw-med">
+      <span>Clear Canvas?</span>
+      <a onClick="clear_canvas()">Yes</a>
+    </aside>
+  </li>
+  <li class="item save">
+    <i class="fa fa-floppy-o" title="save canvas"></i>
+    <aside class="flyout minw-med">
+      <span>Save Canvas as:</span>
+      <a onClick="to_image('png')">png</a></a>
+      <div class="save_destination"></div>
+    </aside>
+  </li>
+
+</ul>
+  
+<div id="controls">
+  <div class="controls-left">
+    <span class="up"><i class="fa fa-arrow-circle-o-up"></i></span>
+    <span class="down"><i class="fa fa-arrow-circle-o-down"></i></span>
+  </div>
+  <div class="controls-right">
+    <span class="left"><i class="fa fa-arrow-circle-o-left"></i></span>
+    <span class="right"><i class="fa fa-arrow-circle-o-right"></i></span>
+  </div>
+</div>
+<script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="assets/spectrum.js"></script>
+<script>
+  var height;
+  var width;
+  var canvas;
+  var context;
+  var ypos;
+  var xpos;
+  var size;
+  var sensitivity;
+  var leftPress;
+  var upPress;
+  var rightPress;
+  var downPress;
+  // locks to stop exponential setting
+  var leftLock=false;
+  var upLock=false;
+  var rightLock=false;
+  var downLock=false;
+  
+function initialize(){
+  $(document).on('touchmove', false);
+  $('body').on('touchmove','.flyout',function(e){e.stopPropagation();});
+  $('#control-panel .item').on('click', function(){$(this).toggleClass('active');});
+  $('#control-panel .item').on('click','.flyout',function(e){e.stopPropagation();});
+  height=$(document).height();
+  width=$(document).width();
+
+  canvas=document.getElementById("canvas");
+  context=canvas.getContext("2d");
+
+  ypos=height/2;
+  xpos=width/2;
+  set_size(10);
+  sensitivity=70;
+
+  context.canvas.width=window.innerWidth;
+  context.canvas.height=window.innerHeight;
+  
+  set_color('#000000');
+  
+  draw();
+}
+function draw(){
+  xpos=Math.floor(xpos);
+  ypos=Math.floor(ypos);   
+  context.fillRect(xpos,ypos,size,size);
+  console.log('draw:'+xpos+','+ypos+','+size+','+size);
+}
+function set_color(color){
+  context.fillStyle=color;
+}
+function set_size(x){
+  size=x;
+}
+function set_sensitivity(y){
+  sensitivity=400-y;
+}
+function clear_canvas(){
+  context.clearRect(0,0,width,height);
+}
+function to_image(type){
+  if(type=='png'){
+  url=canvas.toDataURL();
+  }
+  $('.item.save .save_destination').empty().append(
+  "<img class='thumbnail' src='"+url+"' alt='thumbnail' />",
+  "<a href='"+url+"' target='_blank' download='canvas_drawing.png'>Download</a>"
+  );
+  
+}
+
+function setLeftOn(){
+  if(!leftLock){
+    leftLock=true;
+    drawLeft();
+    leftPress=setInterval( function(){
+      drawLeft();
+    }, sensitivity );
+  }
+}
+function setUpOn(){
+  if(!upLock){
+    upLock=true;
+    drawUp();
+    upPress=setInterval(function(){
+      drawUp();
+    },sensitivity);
+  }
+}
+function setRightOn(){
+  if(!rightLock){
+    rightLock=true;
+    drawRight();
+    rightPress=setInterval(function(){
+      drawRight();
+    },sensitivity);
+  }
+}
+function setDownOn(){
+  if(!downLock){
+    downLock=true;
+    drawDown();
+    downPress=setInterval(function(){
+      drawDown();
+    },sensitivity);
+  }
+}
+function drawLeft(){
+  xpos-=size;
+  draw();
+}
+function drawUp(){
+  ypos-=size;
+  draw();
+}
+function drawRight(){
+  xpos+=size;
+  draw();
+}
+function drawDown(){
+  ypos+=size;
+  draw();
+}
+function setLeftOff(){
+  clearInterval(leftPress);
+  leftLock=false;
+}
+function setUpOff(){
+  clearInterval(upPress);
+  upLock=false;
+}
+function setRightOff(){
+  clearInterval(rightPress);
+  rightLock=false;
+}
+function setDownOff(){
+  clearInterval(downPress);
+  downLock=false;
+}
+
+//Main Execution
+initialize();
+$(document).keydown(function(event){
+  switch(event.which){
+    case 37: //left
+    setLeftOn();
+    $('.left').addClass("active");
+    break;
+    case 38: //up
+    setUpOn();
+    $('.up').addClass("active");
+    break;
+    case 39: //right
+    setRightOn();
+    $('.right').addClass("active");
+    break;
+    case 40: //down
+    setDownOn();
+    $('.down').addClass("active");
+    break;
+  }
+});
+$(document).keyup(function(event){
+  switch(event.which){
+    case 37: //left
+    setLeftOff();
+    $('.left').removeClass("active");
+    break;
+    case 38: //up
+    setUpOff();
+    $('.up').removeClass("active");
+    break;
+    case 39: //right
+    setRightOff();
+    $('.right').removeClass("active");
+    break;
+    case 40: //down
+    setDownOff();
+    $('.down').removeClass("active");
+    break;
+  }
+});
+$('.left').on('touchstart',function(){
+  setLeftOn();
+  $('.left').addClass("active");
+});
+$('.up').on('touchstart',function(){
+  setUpOn();
+  $('.up').addClass("active");
+});
+$('.right').on('touchstart',function(){
+  setRightOn();
+  $('.right').addClass("active");
+});
+$('.down').on('touchstart',function(){
+  setDownOn();
+  $('.down').addClass("active");
+});
+
+
+$('.left').on('touchend',function(){
+  setLeftOff();
+  $('.left').removeClass("active");
+});
+$('.up').on('touchend',function(){
+  setUpOff();
+  $('.up').removeClass("active");
+});
+$('.right').on('touchend',function(){
+  setRightOff();
+  $('.right').removeClass("active");
+});
+$('.down').on('touchend',function(){
+  setDownOff();
+  $('.down').removeClass("active");
+});
+
+
+
+</script>
+</body>
+</html>

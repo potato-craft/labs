@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>The Emperor's New Groove | Watch With Friends</title>
+
+  <!-- Chang URLs to wherever Video.js files will be hosted -->
+  <!--link href="/video/video-js-viewer.css" rel="stylesheet" type="text/css"-->
+  <!-- video.js must be in the <head> for older IEs to work. -->
+  <!--script src="/video/video.dev.js"></script-->
+  <script src="/video/jquery.1.9.1.min.js"></script>
+  
+
+  <!-- Unless using the CDN hosted version, update the URL to the Flash SWF -->
+  <style>
+  body{
+    margin:0;
+  }
+  video{
+    position:absolute;
+    top:0;
+    left:0;
+    height:100%;
+    width:100%;
+  }
+  #rjvideo{
+    overflow:hidden;
+  }
+  </style>
+  <script>
+   $(document).ready(function(){
+     $(window).resize(function() {
+       $("#vjs_video_4").css({
+         'width': window.innerWidth ,
+         'height': window.innerHeight
+         });
+     });
+   });
+  </script>
+  
+
+
+</head>
+<body>
+  <video id="rjvideo" class="video-js vjs-default-skin" preload 
+      data-setup="{}">
+    <source src="https://dl.dropboxusercontent.com/s/8i4f6omkhaq2bli/The%20Emperor%27s%20New%20Groove.mp4?token_hash=AAFIFxv9h4-2CkokjgXicbLcmLa1BwBDi5TVm1PZyFgRUQ&dl=1" type='video/mp4' />
+  </video>
+<script>
+var video=document.getElementsByTagName("video")[0];
+        video.width=window.innerWidth;
+        video.height=window.innerHeight;
+
+var rjvo={
+  stat:0,  //status 0:paused, 1:playing
+  time:0,   //time (to one decimal
+  id:'001'
+}
+var curr=rjvo.stat;
+function get(id){
+
+$.ajax({
+        url : "/video/get.php?id="+id,
+        type : 'GET',
+        dataType : 'json',
+        success : function (result) {
+           rjvo.stat=parseInt(result['stat']); // "Hello world!" alerted
+           rjvo.time=parseFloat(result['time']) // The value of your php $row['adverts'] will be displayed
+        },
+        error : function () {
+           alert("error");
+        }
+    });
+    set();
+}
+
+//get(rjvo.id);
+setInterval(function(){get(rjvo.id)},50);
+function set(){
+  if(curr!=rjvo.stat){
+    curr=rjvo.stat;
+    video.currentTime=rjvo.time;
+    if(rjvo.stat==0){
+     video.pause();
+    }
+    else{
+      video.play();
+    }
+  }
+}
+</script>
+</body>
+</html>

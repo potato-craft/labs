@@ -1,0 +1,52 @@
+.current_player{
+		color:red;
+	}
+	#input_container{
+		width:318px;
+		height:129px;
+		display:inline-block;
+		verticle-align:bottom;
+		vertical-align:top;
+	}
+	#submit_container{
+		display:inline-block;
+	}
+	input[type=submit]{
+		width:159px;
+		height:129px;
+		font-size:26px;
+	}
+	input[type=text]{
+		margin-top:46px;
+		width:310px;
+		font-size:26px;
+		vertical-align:middle;
+	}
+.gamer_score{
+box-sizing:border-box;
+font-weight:bold;
+background:rgb(217,41,41);
+border-radius:3px;
+padding:3px;
+min-width:20px;
+text-align:center;
+border-color:rgb(204, 29, 29);
+border-width:3px;
+border-style:solid;
+color:white;
+}
+
+.gamer_name{
+box-sizing:border-box;
+border-style:solid;
+border-color:rgb(24,83,194);
+border-radius:3px;
+border-width:3px;
+padding:3px;
+padding-left:6px;
+padding-right:6px;
+min-width:40px;
+background:rgb(43,117,214);
+color:white;
+font-weight:bold;
+}

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>  </title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<style>
+body{
+  position:fixed;
+  height:100%;
+  width:100%;
+  margin:0px;
+  padding:0px;
+  background:beige;
+  
+-webkit-touch-callout: none;
+-webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+}
+
+#status, #final-status{
+  font-size:15em;
+  text-align:center;
+  margin-top:10%;
+  color:#FF6A0D;
+}
+#how-to{
+  text-align:center;
+  width:100%;
+  font-size:1.5em;
+  color:#444;
+}
+#score-wrapper{
+  position:fixed;
+  font-size:5em;
+  color:#464646;
+}
+#fails{
+  position:fixed;
+  top:0;
+  right:0;
+  font-size:5em;
+  color:#ef2a05;
+}
+#timer-wrapper{
+  width:10em;
+  height:2em;
+  margin:auto;
+}
+#timer{
+  width:10em;
+  height:2em;
+  background-color:#eabe05;
+}
+#play-again{
+  width:100%;
+  text-align:center;
+}
+
+#play-again a{
+  text-decoration:none;
+  font-size:10em;
+  color:#444;
+}
+</style>
+<script src="quo.js"></script>
+<script src="jquery.min.js"></script>
+<script>
+  
+$(document).ready(function(){
+  
+  function stopScrolling( touchEvent ) { touchEvent.preventDefault(); }
+  document.addEventListener( 'touchstart' , stopScrolling , false );
+  document.addEventListener( 'touchmove' , stopScrolling , false );
+
+
+  $$('body').swipeUp(function(){
+      send(1);
+    });
+  $$('body').swipeRight(function(){
+      send(2);
+    });
+  $$('body').swipeDown(function(){
+      send(3);
+    });
+  $$('body').swipeLeft(function(){
+      send(4);
+    });
+  $("#score-wrapper").hide();
+  $("#timer").hide();
+  $$('#start').on('tap', function(){
+    $$('#start').off('tap');
+    $("#how-to").remove();
+    $("#score-wrapper").show();
+    $("#timer").show();
+    generate();
+  });
+  
+  var randomNum;
+  var score=0;
+  var timeout; 
+  var fails=0;
+  function generate(){
+    if(score<=0){
+      timeout=3000;
+    }
+    else{
+      timeout=3000-(score*50);
+    }
+    randomNum = Math.floor(Math.random()*4+1);
+    var text;
+    switch(randomNum){
+      case 1:
+        text="Up";
+        break;
+      case 2:
+        text="Right";
+        break;
+      case 3:
+        text="Down";
+        break;
+      case 4:
+        text="Left";
+        break;
+      case 5:
+        text="Tap";
+    }
+    $('#status').html(text).show();
+    $('#timer').animate({'width':'0em'},{
+        duration:timeout,
+        easing:'linear', 
+        done:function(){send(0);}
+      });
+  }
+  
+  function reset(){
+    $('#status').fadeOut(400, function(){
+      $('#status').css('color','#FF6A0D');
+      generate();
+      });
+  }
+  
+  function send(num){
+    $('#timer').clearQueue().stop().css('width','10em');
+    if(num==randomNum){
+      $('#status').css('color','green');
+      score++;
+    }
+    else{
+      $('#status').css('color','red');
+      score--;
+      fails++;
+      $('#fails').append(document.createTextNode('X'));
+    }
+    $('#score').html(score);
+    if(fails<3){
+      reset();
+    }
+    else{
+      end();
+    }
+  }
+  
+  function end(){
+    $('#status, #score-wrapper, #fails').fadeOut(400, function(){
+      $('body').empty();
+      showFinal();
+      });
+  }
+  
+  function showFinal(){
+        
+    $('<div id="final-status">Final Score: '+score+'</div><div id="play-again"><a href="index.html">play again</a></div>').appendTo('body').hide().fadeIn(400);
+  }
+  
+  
+});
+</script>
+</head>
+<body>
+<div id="fails"></div>
+<div id="score-wrapper">Score: <span id="score">0</span></div>
+<div id="status"><span id="start">start</span></div>
+<div id="how-to"><p>This is a game played by swiping on a touchscreen,<br> but you can use your mouse too.<br>Tap/Click to start</p></div>
+<div id="timer-wrapper">
+  <div id="timer">
+  </div>
+</div>
+</body>
+</html>
